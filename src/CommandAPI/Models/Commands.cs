@@ -1,7 +1,10 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace CommandAPI.Models
 {
-    public class CommandAPI
+    public class Command
     {
+        
         public int Id { get; set; }
         public string howTo{get;set;}
         public string Platform { get; set; }
