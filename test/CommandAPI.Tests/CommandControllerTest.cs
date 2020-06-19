@@ -54,6 +54,76 @@ namespace CommandAPI.Tests
 
             //ASSERT
             Assert.Empty(result.Value);
-        }             
+        }     
+
+
+        [Fact]
+        public void GetCommandItemsReturnsOneItemWhenDBHasOneObject()
+        {
+            //Arrange 
+            var command = new Command
+            {
+                HowTo="do Something",
+                Platform="Some Platform",
+                CommandLine="Some Command"
+            };
+
+            dbContext.CommandItems.Add(command);
+            dbContext.SaveChanges();
+
+            //ACT
+            var result=controller.GetCommandItems();
+
+            //Assert
+
+            Assert.Single(result.Value);
+        }
+
+
+        [Fact]
+        public void GetCommandItemsReturnsOneItemWhenDBHasNObject()
+        {
+            //ARRANGE
+            var command= new Command()
+            {
+                
+                HowTo="do Something",
+                Platform="Some Platform",
+                CommandLine="Some Command"
+            
+            };
+
+            var command2= new Command()
+            {
+                
+                HowTo="do Something",
+                Platform="Some Platform",
+                CommandLine="Some Command"
+            
+            };
+            dbContext.Add(command);
+            dbContext.Add(command2);
+            dbContext.SaveChanges();
+
+            //ACT
+            var result=controller.GetCommandItems();
+
+            //Assert
+            Assert.Equal(2,result.Value.Count());
+        }
+        //Test 4
+        [Fact]
+        public void GetCommandItemsReturnsTheCorrectType()
+        {
+            //Arrange
+
+            //ACt
+            var result =controller.GetCommandItems();
+
+            //Asert
+            Assert.IsType<ActionResult<IEnumerable<Command>>>(result);
+        }
+
+
     }
 }
